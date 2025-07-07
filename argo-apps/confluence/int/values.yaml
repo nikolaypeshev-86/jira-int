@@ -7,10 +7,6 @@ confluence:
     ingressClassName: nginx
     hosts:
       - confluence.int.catena-x.polygran.io
-    tls:
-      - hosts:
-          - confluence.catena-x.polygran.io
-        secretName: confluence-int-tls
 
 postgresql:
   enabled: false
