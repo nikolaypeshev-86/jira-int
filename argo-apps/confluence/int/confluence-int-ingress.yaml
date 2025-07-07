@@ -16,6 +16,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: jira
+                name: confluence-int
                 port:
                   number: 80
