@@ -6,7 +6,7 @@ updateStrategy:
 autoscaling:
   enabled: true
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 2
   targetCPUUtilizationPercentage: 70
 
 resources:
@@ -17,21 +17,17 @@ resources:
     cpu: 1
     memory: 4Gi
 
-jira:
-  license: ""
-  service:
-    type: ClusterIP
+confluence:
+  license: ""  # add your license if needed
   ingress:
     enabled: true
     ingressClassName: nginx
-    annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      nginx.ingress.kubernetes.io/ssl-redirect: "false"
     hosts:
-      - host: jira.prod.catena-x.polygran.io
-        paths:
-          - path: /
-            pathType: Prefix
+      - confluence.prod.catena-x.polygran.io
+    tls:
+      - hosts:
+          - confluence.prod.catena-x.polygran.io
+        secretName: confluence-prod-tls
   readinessProbe:
     httpGet:
       path: /
@@ -50,11 +46,24 @@ jira:
     periodSeconds: 10
     failureThreshold: 10
 
+
 postgresql:
   enabled: false
 
 database:
   type: postgres72
-  url: jdbc:postgresql://jira-db.prod.svc.cluster.local:5432/jiradb
+  url: jdbc:postgresql://confluence-db.prod.svc.cluster.local:5432/confluencedb
   credentials:
-    secretName: jira-db-secret
+    secretName: confluence-db-secret
+
+sharedHome:
+  storageClassName: "longhorn"
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+
+localHome:
+  storageClassName: "longhorn"
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce

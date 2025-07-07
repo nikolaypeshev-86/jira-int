@@ -1,0 +1,29 @@
+resource "kubernetes_manifest" "jira_int_app" {
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+    metadata = {
+      name      = "jira-int"
+      namespace = "argocd"
+    }
+    spec = {
+      project = "default"
+      source = {
+        repoURL        = "https://github.com/nikolaypeshev-86/jira-int"
+        targetRevision = "HEAD"
+        path           = "jira/int"
+      }
+      destination = {
+        server    = "https://kubernetes.default.svc"
+        namespace = "jira-int"
+      }
+      syncPolicy = {
+        automated = {
+          selfHeal = true
+          prune    = true
+        }
+        syncOptions = ["CreateNamespace=true"]
+      }
+    }
+  }
+}
