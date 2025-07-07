@@ -9,11 +9,6 @@ spec:
     repoURL: https://github.com/nikolaypeshev-86/jira-int
     targetRevision: HEAD
     path: jira/prod
-    helm:
-      valueFiles:
-        - values.yaml
-    chart: jira
-    helmRepoURL: https://atlassian.github.io/data-center-helm-charts
   destination:
     server: https://kubernetes.default.svc
     namespace: jira-prod
