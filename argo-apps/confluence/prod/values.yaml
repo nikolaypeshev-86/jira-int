@@ -20,3 +20,6 @@ database:
   url: jdbc:postgresql://confluence-db.prod.svc.cluster.local:5432/confluencedb
   credentials:
     secretName: confluence-db-secret
+    
+updateStrategy:
+  type: RollingUpdate

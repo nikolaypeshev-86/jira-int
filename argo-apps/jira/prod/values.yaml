@@ -36,3 +36,6 @@ resources:
   limits:
     cpu: 1
     memory: 4Gi
+
+updateStrategy:
+  type: RollingUpdate
