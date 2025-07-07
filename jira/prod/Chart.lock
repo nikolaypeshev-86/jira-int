@@ -1,6 +1,6 @@
 dependencies:
 - name: jira
   repository: https://atlassian.github.io/data-center-helm-charts
-  version: 1.15.1
-digest: sha256:99180e46c682937e1092febc29df8d536b0c460b450b7cc91e64e1e59a49568c
-generated: "2025-07-07T11:45:55.3976478+03:00"
+  version: 2.0.2
+digest: sha256:c6179432283e1584c9f1aae9d7d6b643f644be4b43c86bc5dab4777c668840c1
+generated: "2025-07-07T15:53:53.4325679+03:00"
