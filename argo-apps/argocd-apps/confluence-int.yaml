@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_ORG/argo-apps.git
+    repoURL: https://github.com/nikolaypeshev-86/jira-int
     targetRevision: HEAD
     path: confluence/int
     helm:
