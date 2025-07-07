@@ -5,6 +5,6 @@ type: application
 version: 0.1.0
 appVersion: "1.0"
 dependencies:
-  - name: jira
+  - name: confluence
     version: 1.15.1        # Match version from Atlassian repo
     repository: https://atlassian.github.io/data-center-helm-charts
