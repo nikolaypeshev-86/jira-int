@@ -1,0 +1,22 @@
+replicaCount: 1
+
+confluence:
+  license: ""  # use test license
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - confluence.int.catena-x.polygran.io
+    tls:
+      - hosts:
+          - confluence.catena-x.polygran.io
+        secretName: confluence-int-tls
+
+postgresql:
+  enabled: false
+
+database:
+  type: postgres72
+  url: jdbc:postgresql://confluence-db.int.svc.cluster.local:5432/confluencedb
+  credentials:
+    secretName: confluence-db-secret

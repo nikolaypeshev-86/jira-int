@@ -1,0 +1,24 @@
+replicaCount: 1
+
+jira:
+  license: ""
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - jira.prod.catena-x.polygran.io
+    tls:
+      - hosts:
+          - jira.prod.catena-x.polygran.io
+        secretName: jira-prod-tls
+
+postgresql:
+  enabled: false
+
+database:
+  type: postgres72
+  url: jdbc:postgresql://<your-db-host>:5432/jiradb
+  credentials:
+    secretName: jira-db-secret

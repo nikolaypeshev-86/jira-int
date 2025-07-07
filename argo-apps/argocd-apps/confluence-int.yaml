@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: confluence-int
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_ORG/argo-apps.git
+    targetRevision: HEAD
+    path: confluence/int
+    helm:
+      valueFiles:
+        - values.yaml
+    chart: confluence
+    helmRepoURL: https://atlassian.github.io/data-center-helm-charts
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: confluence-int
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

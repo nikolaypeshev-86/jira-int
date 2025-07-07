@@ -1,0 +1,8 @@
+auth:
+  username: jirauser
+  password: testjiraPassword123
+  database: jiradb
+
+primary:
+  persistence:
+    enabled: false
