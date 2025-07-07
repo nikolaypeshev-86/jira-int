@@ -1,0 +1,8 @@
+auth:
+  username: jirauser
+  password: testjiraPassword123
+  database: confluencedb
+
+primary:
+  persistence:
+    enabled: false

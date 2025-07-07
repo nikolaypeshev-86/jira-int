@@ -1,5 +1,22 @@
 replicaCount: 1
 
+updateStrategy:
+  type: RollingUpdate
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 70
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 2Gi
+  limits:
+    cpu: 1
+    memory: 4Gi
+
 jira:
   license: ""
   service:
@@ -15,6 +32,24 @@ jira:
         paths:
           - path: /
             pathType: Prefix
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 60
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 10
+
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 120
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 10
+
 postgresql:
   enabled: false
 
@@ -23,19 +58,3 @@ database:
   url: jdbc:postgresql://jira-db.prod.svc.cluster.local:5432/jiradb
   credentials:
     secretName: jira-db-secret
-autoscaling:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 2
-  targetCPUUtilizationPercentage: 60
-
-resources:
-  requests:
-    cpu: 500m
-    memory: 2Gi
-  limits:
-    cpu: 1
-    memory: 4Gi
-
-updateStrategy:
-  type: RollingUpdate
