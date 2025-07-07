@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: jira.prod.catena-x.polygran.io
+    - host: jira-prod.catena-x.polygran.io
       http:
         paths:
           - path: /
