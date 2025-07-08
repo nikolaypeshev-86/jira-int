@@ -5,7 +5,7 @@ updateStrategy:
 
 autoscaling:
   enabled: true
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 70
 
@@ -28,7 +28,7 @@ jira:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
     hosts:
-      - host: jira.prod.catena-x.polygran.io
+      - host: jira2.prod.catena-x.polygran.io
         paths:
           - path: /
             pathType: Prefix
