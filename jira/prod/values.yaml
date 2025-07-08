@@ -28,7 +28,7 @@ jira:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
     hosts:
-      - host: jira2.prod.catena-x.polygran.io
+      - host: jira.prod.catena-x.polygran.io
         paths:
           - path: /
             pathType: Prefix
