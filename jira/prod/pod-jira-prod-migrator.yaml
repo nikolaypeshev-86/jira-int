@@ -1,0 +1,19 @@
+# pod-jira-prod-migrator.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: migrator-jira-prod
+  namespace: jira-prod
+spec:
+  containers:
+    - name: migrator
+      image: alpine
+      command: [ "sleep", "3600" ]
+      volumeMounts:
+        - name: shared
+          mountPath: /mnt/shared-new
+  volumes:
+    - name: shared
+      persistentVolumeClaim:
+        claimName: jira-prod-shared-home
+  restartPolicy: Never
