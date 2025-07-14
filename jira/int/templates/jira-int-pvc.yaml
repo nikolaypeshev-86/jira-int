@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ printf "%s-shared-home" (include "your-chart.fullname" .) }}
+  name: {{ printf "%s-shared-home" .Release.Name }}
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "your-chart.name" . }}
@@ -16,7 +16,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ printf "%s-local-home" (include "your-chart.fullname" .) }}
+  name: {{ printf "%s-local-home" .Release.Name }}
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "your-chart.name" . }}
