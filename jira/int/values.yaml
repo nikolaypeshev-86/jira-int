@@ -25,7 +25,7 @@ postgresql:
 
 database:
   type: postgres72
-  url: jdbc:postgresql://jira-db.int.svc.cluster.local:5432/jiradb
+  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
   credentials:
     secretName: jira-db-secret
 
