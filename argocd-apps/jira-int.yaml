@@ -4,7 +4,7 @@ metadata:
   name: jira-int
   namespace: argocd
 spec:
-  project: default
+  project: atlassian-int
   source:
     repoURL: https://github.com/nikolaypeshev-86/jira-int
     targetRevision: HEAD
