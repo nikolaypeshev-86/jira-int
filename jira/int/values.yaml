@@ -65,18 +65,18 @@ database:
     secretName: jira-db-secret
     
 volumes:
-  shared-home:
-    name: shared-home
-    existingClaim: jira-int-shared-home
-  local-home:
-    name: local-home
-    existingClaim: jira-int-local-home
+  localHome:
+    persistentVolumeClaim:
+      create: true
+  sharedHome:
+    persistentVolumeClaim:
+      create: true
 
 sharedHome:
   storageClassName: "longhorn"
   size: 10Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
 
 localHome:
   storageClassName: "longhorn"
