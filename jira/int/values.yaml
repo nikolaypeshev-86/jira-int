@@ -30,6 +30,25 @@ database:
     secretName: jira-db-secret
 
 jira:
+  volumes:
+    localHome:
+      persistentVolumeClaim:
+        create: true
+        storageClassName: "longhorn"
+        AccessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+    sharedHome:
+      persistentVolumeClaim:
+        create: true
+        storageClassName: "longhorn"
+        AccessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 10Gi
   readinessProbe:
     httpGet:
       path: /
@@ -48,25 +67,7 @@ jira:
     periodSeconds: 10
     failureThreshold: 10   
 
-volumes:
-  localHome:
-    persistentVolumeClaim:
-      create: true
-      storageClassName: "longhorn"
-      AccessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 10Gi
-  sharedHome:
-    persistentVolumeClaim:
-      create: true
-      storageClassName: "longhorn"
-      AccessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: 10Gi
+
 ingress:
   create: true
   nginx: true
