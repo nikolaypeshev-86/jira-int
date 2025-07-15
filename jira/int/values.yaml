@@ -65,12 +65,14 @@ database:
     secretName: jira-db-secret
     
 volumes:
-  localHome:
-    persistentVolumeClaim:
-      create: true
   sharedHome:
-    persistentVolumeClaim:
-      create: true
+    customVolume:
+      persistentVolumeClaim:
+        claimName: "jira-int-shared-home"
+  localHome:
+    customVolume:
+      persistentVolumeClaim:
+        claimName: "jira-int-local-home"
 
 sharedHome:
   storageClassName: "longhorn"
