@@ -63,6 +63,27 @@ database:
   url: jdbc:postgresql://jira-db.int.svc.cluster.local:5432/jiradb
   credentials:
     secretName: jira-db-secret
+    
+volumes:
+  shared-home:
+    name: shared-home
+    persistentVolumeClaim:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: longhorn
+
+  local-home:
+    name: local-home
+    persistentVolumeClaim:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: longhorn
 
 sharedHome:
   storageClassName: "longhorn"
