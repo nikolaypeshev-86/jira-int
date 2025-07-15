@@ -65,14 +65,16 @@ database:
     secretName: jira-db-secret
     
 volumes:
-  sharedHome:
-    customVolume:
-      persistentVolumeClaim:
-        claimName: "jira-int-shared-home"
   localHome:
-    customVolume:
-      persistentVolumeClaim:
-        claimName: "jira-int-local-home"
+    mountPath: "/var/atlassian/application-data/jira"
+    persistentVolumeClaim:
+      create: true
+      storageClassName: "longhorn"
+  sharedHome:
+    mountPath: "/var/atlassian/application-data/shared-home"
+    persistentVolumeClaim:
+      create: true
+      storageClassName: "longhorn"
 
 sharedHome:
   storageClassName: "longhorn"
