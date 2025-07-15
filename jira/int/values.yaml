@@ -1,5 +1,8 @@
 replicaCount: 1
 
+persistence:
+  enabled: true
+
 updateStrategy:
   type: RollingUpdate
 
@@ -20,6 +23,8 @@ resources:
 jira:
   mountSharedHome: true
   mountLocalHome: true
+  sharedHomeMountPath: /var/atlassian/application-data/shared-home
+  localHomeMountPath: /var/atlassian/application-data/jira  
   license: ""
   ingress:
     enabled: true
