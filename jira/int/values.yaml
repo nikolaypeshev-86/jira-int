@@ -4,7 +4,7 @@ updateStrategy:
   type: RollingUpdate
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 70
@@ -34,7 +34,7 @@ jira:
     httpGet:
       path: /
       port: http
-    initialDelaySeconds: 60
+    initialDelaySeconds: 120
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10
