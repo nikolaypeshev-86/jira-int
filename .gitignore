@@ -3,6 +3,8 @@
 # Local .terraform directory
 .terraform/
 
+.jira/migration/local-old/
+.jira/migration/shared-old/
 # Terraform state files
 *.tfstate
 *.tfstate.*
