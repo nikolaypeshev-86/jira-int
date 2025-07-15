@@ -28,7 +28,7 @@ override.tf.json
 
 # Helm chart packaging output
 *.tgz
-
+.lock
 # Helm local values files (often contain sensitive info)
 values.override.yaml
 values.local.yaml
