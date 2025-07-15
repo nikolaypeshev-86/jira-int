@@ -49,6 +49,16 @@ jira:
         resources:
           requests:
             storage: 10Gi
+  ingress:
+    create: true
+    nginx: true
+    maxBodySize: 250m
+    host: jira-int.catena-x.polygran.io
+    path: "/"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
   readinessProbe:
     httpGet:
       path: /
@@ -66,14 +76,3 @@ jira:
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10   
-
-
-ingress:
-  create: true
-  nginx: true
-  maxBodySize: 250m
-  host: jira-int.catena-x.polygran.io
-  path: "/"
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
