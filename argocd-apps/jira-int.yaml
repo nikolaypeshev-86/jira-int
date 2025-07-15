@@ -12,6 +12,8 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+    chart: jira
+    helmRepoURL: https://atlassian.github.io/data-center-helm-charts  
   destination:
     server: https://kubernetes.default.svc
     namespace: jira-int

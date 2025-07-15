@@ -18,6 +18,8 @@ resources:
     memory: 4Gi
     
 jira:
+  mountSharedHome: true
+  mountLocalHome: true
   license: ""
   ingress:
     enabled: true
