@@ -38,14 +38,7 @@ jira:
       type: configMap
       key: cluster.properties
       mountPath: /var/atlassian/application-data/jira
-    - name: jira-bootstrap-config
-      type: secret
-      key: dbconfig.xml
-      mountPath: /var/atlassian/application-data/jira
-    - name: jira-bootstrap-config
-      type: secret
-      key: secrets-config.yaml
-      mountPath: /var/atlassian/application-data/jira
+  
   replicaCount: 2
   clustering:
     enabled: true
