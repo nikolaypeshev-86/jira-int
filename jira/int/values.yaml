@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 1
 
 updateStrategy:
   type: RollingUpdate
@@ -33,11 +33,6 @@ database:
     secretName: jira-db-secret
 
 jira:
-  replicaCount: 2
-
-  updateStrategy:
-    type: RollingUpdate
-
   clustering:
     enabled: true
   volumes:
