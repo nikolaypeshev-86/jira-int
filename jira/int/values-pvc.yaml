@@ -29,27 +29,7 @@ database:
   credentials:
     secretName: jira-db-secret
 
-jira:
-  volumes:
-    localHome:
-      persistentVolumeClaim:
-        create: false
-        storageClassName: "longhorn"
-        AccessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
-    sharedHome:
-      persistentVolumeClaim:
-        create: true
-        storageClassName: "longhorn"
-        AccessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 10Gi
-  ingress:
+ingress:
     create: true
     nginx: true
     maxBodySize: 250m
@@ -58,7 +38,7 @@ jira:
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
-
+jira:
   readinessProbe:
     httpGet:
       path: /
@@ -76,3 +56,25 @@ jira:
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10   
+
+volumes:
+  localHome:
+    persistentVolumeClaim:
+      create: true
+      claimName: local-home-jira-int-0
+      storageClassName: "longhorn"
+      AccessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+  sharedHome:
+    persistentVolumeClaim:
+      create: true
+      claimName: shared-home-pvc
+      storageClassName: "longhorn"
+      AccessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 10Gi
