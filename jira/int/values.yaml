@@ -3,6 +3,9 @@ replicaCount: 2
 updateStrategy:
   type: RollingUpdate
 
+clustering:
+    enabled: true
+
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -30,6 +33,8 @@ database:
     secretName: jira-db-secret
 
 jira:
+  clustering:
+    enabled: true
   volumes:
     localHome:
       persistentVolumeClaim:
