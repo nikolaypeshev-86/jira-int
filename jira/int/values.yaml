@@ -33,6 +33,11 @@ database:
     secretName: jira-db-secret
 
 jira:
+  replicaCount: 2
+
+  updateStrategy:
+    type: RollingUpdate
+
   clustering:
     enabled: true
   volumes:
