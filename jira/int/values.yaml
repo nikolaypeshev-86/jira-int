@@ -81,3 +81,8 @@ jira:
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10   
+additionalFiles:
+  - name: cluster-properties
+    type: configMap
+    key: cluster.properties
+    mountPath: /var/atlassian/application-data/jira
