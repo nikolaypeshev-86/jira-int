@@ -33,7 +33,7 @@ jira:
   volumes:
     localHome:
       persistentVolumeClaim:
-        create: false
+        create: true
         storageClassName: "longhorn"
         AccessModes:
           - ReadWriteOnce
