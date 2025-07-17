@@ -2,9 +2,9 @@
 
 # Local .terraform directory
 .terraform/
+# ignore migration files
+/migration/*
 
-.jira/migration/local-old/
-.jira/migration/shared-old/
 # Terraform state files
 *.tfstate
 *.tfstate.*
