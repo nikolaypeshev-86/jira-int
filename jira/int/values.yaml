@@ -33,6 +33,11 @@ database:
     secretName: jira-db-secret
 
 jira:
+  additionalFiles:
+    - name: cluster-properties
+      type: configMap
+      key: cluster.properties
+      mountPath: /var/atlassian/application-data/jira
   replicaCount: 2
   clustering:
     enabled: true
