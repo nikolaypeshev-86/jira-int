@@ -38,8 +38,14 @@ jira:
       type: configMap
       key: cluster.properties
       mountPath: /var/atlassian/application-data/jira
-  
-  replicaCount: 2
+      
+  database:
+    type: postgres72
+    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
+    credentials:
+      secretName: jira-db-secret
+
+  replicaCount: 1
   clustering:
     enabled: true
   volumes:
