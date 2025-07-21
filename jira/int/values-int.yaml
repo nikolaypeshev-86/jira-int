@@ -1,19 +1,20 @@
-replicaCount: 1
-updateStrategy:
-  type: RollingUpdate
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 3
-  targetCPUUtilizationPercentage: 90
-resources:
-  requests:
-    cpu: 1
-    memory: 4Gi
-  limits:
-    cpu: 2
+
 
 jira:
+  replicaCount: 2
+  updateStrategy:
+    type: RollingUpdate
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 90
+  resources:
+    requests:
+      cpu: 1
+      memory: 4Gi
+    limits:
+      cpu: 2
   readinessProbe:
     httpGet:
       path: /
