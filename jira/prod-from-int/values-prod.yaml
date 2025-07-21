@@ -64,4 +64,9 @@ jira:
       customVolume:
         persistentVolumeClaim:
           claimName: shared-home-prod
+  additionalFiles:
+  - name: cluster-properties
+    type: configMap
+    key: cluster.properties
+    mountPath: /var/atlassian/application-data/jira
           
