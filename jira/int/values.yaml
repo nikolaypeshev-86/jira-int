@@ -1,3 +1,34 @@
+replicaCount: 1
+updateStrategy:
+  type: RollingUpdate
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 90
+resources:
+  requests:
+    cpu: 1
+    memory: 4Gi
+  limits:
+    cpu: 2
+    memory: 8Gi
+persistence:
+  enabled: true
+database:
+  type: postgres72
+  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int-cluster
+  credentials:
+    secretName: jira-db-secret
+ingress:
+    create: true
+    nginx: true
+    maxBodySize: 250m
+    host: jira-int.catena-x.polygran.io
+    path: "/"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
 jira:
   readinessProbe:
     httpGet:
@@ -17,48 +48,18 @@ jira:
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10   
-  replicaCount: 1
-  updateStrategy:
-    type: RollingUpdate
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 3
-    targetCPUUtilizationPercentage: 90
-  resources:
-    requests:
-      cpu: 1
-      memory: 4Gi
-    limits:
-      cpu: 2
-      memory: 8Gi
-  persistence:
-    enabled: true
-  database:
-    type: postgres72
-    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int-cluster
-    credentials:
-      secretName: jira-db-secret
-  ingress:
+volumes:
+  localHome:
+    persistentVolumeClaim:
       create: true
-      nginx: true
-      maxBodySize: 250m
-      host: jira-int.catena-x.polygran.io
-      path: "/"
-      annotations:
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-        nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  volumes:
-    localHome:
+      storageClassName: longhorn
+      accessModes:
+        - ReadWriteOnce 
+      resources:
+        requests:
+          storage: 10Gi
+  sharedHome:
+    customVolume:
       persistentVolumeClaim:
-        create: true
-        storageClassName: longhorn
-        accessModes:
-          - ReadWriteOnce 
-        resources:
-          requests:
-            storage: 10Gi
-    sharedHome:
-      customVolume:
-        persistentVolumeClaim:
-          claimName: shared-home-int
+        claimName: shared-home-int
+        
