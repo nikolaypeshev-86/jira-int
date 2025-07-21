@@ -11,7 +11,7 @@ spec:
     path: jira/int
     helm:
       valueFiles:
-        - values.yaml
+        - values-int-helm.yaml
     chart: jira
     helmRepoURL: https://atlassian.github.io/data-center-helm-charts  
   destination:
