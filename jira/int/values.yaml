@@ -60,12 +60,23 @@ jira:
 
 volumes:
   localHome:
-    customVolume:
-      persistentVolumeClaim:
-        claimName: local-home-jira-int-0
+    persistentVolumeClaim:
+      create: false
+      storageClassName: longhorn
+      accessModes:
+        - ReadWriteOnce 
+      resources:
+        requests:
+          storage: 1Gi
+      persistentVolumeClaimRetentionPolicy:
+        whenDeleted: Retain
+        whenScaled: Retain
    
   sharedHome:
     customVolume:
       persistentVolumeClaim:
-        claimName: jira-int-shared-home
+        claimName: shared-home-int
+      persistentVolumeClaimRetentionPolicy:
+        whenDeleted: Retain
+        whenScaled: Retain
  
