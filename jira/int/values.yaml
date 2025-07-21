@@ -20,9 +20,6 @@ resources:
 persistence:
   enabled: true
 
-postgresql:
-  enabled: false
-
 database:
   type: postgres72
   url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int-cluster
@@ -43,7 +40,7 @@ jira:
     httpGet:
       path: /
       port: http
-    initialDelaySeconds: 120
+    initialDelaySeconds: 60
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10
@@ -53,7 +50,7 @@ jira:
     httpGet:
       path: /
       port: http
-    initialDelaySeconds: 120
+    initialDelaySeconds: 60
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10   
@@ -61,22 +58,16 @@ jira:
 volumes:
   localHome:
     persistentVolumeClaim:
-      create: false
+      create: true
       storageClassName: longhorn
       accessModes:
         - ReadWriteOnce 
       resources:
         requests:
-          storage: 1Gi
-      persistentVolumeClaimRetentionPolicy:
-        whenDeleted: Retain
-        whenScaled: Retain
+          storage: 10Gi
    
   sharedHome:
     customVolume:
       persistentVolumeClaim:
         claimName: shared-home-int
-      persistentVolumeClaimRetentionPolicy:
-        whenDeleted: Retain
-        whenScaled: Retain
  
