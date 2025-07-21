@@ -6,5 +6,5 @@ version: 0.1.0
 appVersion: "1.0"
 dependencies:
   - name: jira
-    version: 2.0.2       # Match version from Atlassian repo
+    version: 1.20.0       # Match version from Atlassian repo
     repository: https://atlassian.github.io/data-center-helm-charts
