@@ -3,9 +3,6 @@ replicaCount: 1
 updateStrategy:
   type: RollingUpdate
 
-clustering:
-    enabled: true
-
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -28,46 +25,11 @@ postgresql:
 
 database:
   type: postgres72
-  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
+  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int-cluster
   credentials:
     secretName: jira-db-secret
 
-jira:
-  additionalFiles:
-    - name: cluster-properties
-      type: configMap
-      key: cluster.properties
-      mountPath: /var/atlassian/application-data/jira
-      
-  database:
-    type: postgres72
-    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
-    credentials:
-      secretName: jira-db-secret
-
-  replicaCount: 1
-  clustering:
-    enabled: true
-  volumes:
-    localHome:
-      persistentVolumeClaim:
-        create: true
-        storageClassName: "longhorn"
-        AccessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
-    sharedHome:
-      persistentVolumeClaim:
-        create: true
-        storageClassName: "longhorn"
-        AccessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 10Gi
-  ingress:
+ingress:
     create: true
     nginx: true
     maxBodySize: 250m
@@ -76,7 +38,7 @@ jira:
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
-
+jira:
   readinessProbe:
     httpGet:
       path: /
@@ -85,7 +47,8 @@ jira:
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10
-
+  clustering:
+    enabled: true
   livenessProbe:
     httpGet:
       path: /
@@ -94,8 +57,15 @@ jira:
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10   
-additionalFiles:
-  - name: cluster-properties
-    type: configMap
-    key: cluster.properties
-    mountPath: /var/atlassian/application-data/jira
+
+volumes:
+  localHome:
+    customVolume:
+      persistentVolumeClaim:
+        claimName: local-home-jira-int-0
+   
+  sharedHome:
+    customVolume:
+      persistentVolumeClaim:
+        claimName: jira-int-shared-home
+ 

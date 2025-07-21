@@ -1,0 +1,101 @@
+replicaCount: 1
+
+updateStrategy:
+  type: RollingUpdate
+
+clustering:
+    enabled: true
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 90
+
+resources:
+  requests:
+    cpu: 1
+    memory: 4Gi
+  limits:
+    cpu: 2
+    memory: 8Gi
+
+persistence:
+  enabled: true
+
+postgresql:
+  enabled: false
+
+database:
+  type: postgres72
+  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
+  credentials:
+    secretName: jira-db-secret
+
+jira:
+  additionalFiles:
+    - name: cluster-properties
+      type: configMap
+      key: cluster.properties
+      mountPath: /var/atlassian/application-data/jira
+      
+  database:
+    type: postgres72
+    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
+    credentials:
+      secretName: jira-db-secret
+
+  replicaCount: 1
+  clustering:
+    enabled: true
+  volumes:
+    localHome:
+      persistentVolumeClaim:
+        create: true
+        storageClassName: "longhorn"
+        AccessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+    sharedHome:
+      persistentVolumeClaim:
+        create: true
+        storageClassName: "longhorn"
+        AccessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 10Gi
+  ingress:
+    create: true
+    nginx: true
+    maxBodySize: 250m
+    host: jira-int.catena-x.polygran.io
+    path: "/"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 120
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 10
+
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 120
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 10   
+additionalFiles:
+  - name: cluster-properties
+    type: configMap
+    key: cluster.properties
+    mountPath: /var/atlassian/application-data/jira
