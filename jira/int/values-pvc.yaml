@@ -25,7 +25,7 @@ postgresql:
 
 database:
   type: postgres72
-  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
+  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int-cluster
   credentials:
     secretName: jira-db-secret
 
@@ -47,7 +47,8 @@ jira:
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10
-
+  clustering:
+    enabled: true
   livenessProbe:
     httpGet:
       path: /
@@ -59,22 +60,12 @@ jira:
 
 volumes:
   localHome:
-    persistentVolumeClaim:
-      create: true
-      claimName: local-home-jira-int-0
-      storageClassName: "longhorn"
-      AccessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 10Gi
+    customVolume:
+      persistentVolumeClaim:
+        claimName: local-home-jira-int-0
+   
   sharedHome:
-    persistentVolumeClaim:
-      create: true
-      claimName: shared-home-pvc
-      storageClassName: "longhorn"
-      AccessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: 10Gi
+    customVolume:
+      persistentVolumeClaim:
+        claimName: jira-int-shared-home
+ 
