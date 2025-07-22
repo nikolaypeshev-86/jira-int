@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jira-cluster-properties
+  name: cluster-properties
   namespace: jira-prod
 data:
   cluster.properties: |
