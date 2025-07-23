@@ -1,7 +1,7 @@
 
 
 jira:
-  replicaCount: 2
+  replicaCount: 3
   updateStrategy:
     type: RollingUpdate
   autoscaling:
