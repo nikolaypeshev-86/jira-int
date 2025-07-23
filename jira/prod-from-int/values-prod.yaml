@@ -64,33 +64,3 @@ jira:
       customVolume:
         persistentVolumeClaim:
           claimName: shared-home-prod
-  additionalEnvironmentVariables:
-  - name: JIRA_NODE_ID
-    valueFrom:
-      fieldRef:
-        fieldPath: metadata.name
-  additionalInitContainers:
-    - name: generate-cluster-properties
-      image: busybox
-      command:
-        - sh
-        - -c
-        - |
-          echo "jira.node.id=${JIRA_NODE_ID}" > /shared-config/cluster.properties
-          echo "jira.shared.home=/var/atlassian/application-data/shared-home" >> /shared-config/cluster.properties
-      env:
-        - name: JIRA_NODE_ID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-      volumeMounts:
-        - name: cluster-properties
-          mountPath: /shared-config
-
-  additionalVolumes:
-    - name: cluster-properties
-      emptyDir: {}
-
-  additionalVolumeMounts:
-    - name: cluster-properties
-      mountPath: /var/atlassian/application-data/jira
