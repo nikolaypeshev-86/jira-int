@@ -4,6 +4,7 @@
 .terraform/
 # ignore migration files
 /migration/*
+/backup/*
 
 # Terraform state files
 *.tfstate

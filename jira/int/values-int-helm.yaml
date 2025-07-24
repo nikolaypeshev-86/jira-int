@@ -1,4 +1,4 @@
-replicaCount: 1
+replicaCount: 2
 updateStrategy:
   type: RollingUpdate
 autoscaling:
@@ -17,9 +17,12 @@ persistence:
   enabled: true
 database:
   type: postgres72
-  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int-cluster
+  url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
+  driver: org.postgresql.Driver
   credentials:
     secretName: jira-db-secret
+    usernameSecretKey: username
+    passwordSecretKey: password
 ingress:
     create: true
     nginx: true
@@ -57,9 +60,8 @@ volumes:
         - ReadWriteOnce 
       resources:
         requests:
-          storage: 10Gi
+          storage: 1Gi
   sharedHome:
     customVolume:
       persistentVolumeClaim:
         claimName: shared-home-int
-        
