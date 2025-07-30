@@ -10,10 +10,10 @@ jira:
   resources:
     requests:
       cpu: 1
-      memory: 2Gi
+      memory: 4Gi
     limits:
       cpu: 2
-      memory: 4Gi
+      memory: 8Gi
   persistence:
     enabled: true
   database:
@@ -33,31 +33,32 @@ jira:
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  readinessProbe:
-    httpGet:
-      path: /
-      port: http
-    initialDelaySeconds: 60
-    timeoutSeconds: 5
-    periodSeconds: 10
-    failureThreshold: 10
-  clustering:
-    enabled: true
-  livenessProbe:
-    httpGet:
-      path: /
-      port: http
-    initialDelaySeconds: 60
-    timeoutSeconds: 5
-    periodSeconds: 10
-    failureThreshold: 10   
+  jira:
+    readinessProbe:
+      httpGet:
+        path: /
+        port: http
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      failureThreshold: 10
+    clustering:
+      enabled: true
+    livenessProbe:
+      httpGet:
+        path: /
+        port: http
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      failureThreshold: 10
   volumes:
     localHome:
       persistentVolumeClaim:
         create: true
         storageClassName: longhorn
         accessModes:
-          - ReadWriteOnce 
+          - ReadWriteOnce
         resources:
           requests:
             storage: 1Gi
