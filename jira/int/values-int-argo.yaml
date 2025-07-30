@@ -25,33 +25,32 @@ jira:
       usernameSecretKey: username
       passwordSecretKey: password
   ingress:
-      create: true
-      nginx: true
-      maxBodySize: 250m
-      host: jira-int.catena-x.polygran.io
-      path: "/"
-      annotations:
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-        nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  jira:
-    readinessProbe:
-      httpGet:
-        path: /
-        port: http
-      initialDelaySeconds: 60
-      timeoutSeconds: 5
-      periodSeconds: 10
-      failureThreshold: 10
-    clustering:
-      enabled: true
-    livenessProbe:
-      httpGet:
-        path: /
-        port: http
-      initialDelaySeconds: 60
-      timeoutSeconds: 5
-      periodSeconds: 10
-      failureThreshold: 10   
+    create: true
+    nginx: true
+    maxBodySize: 250m
+    host: jira-int.catena-x.polygran.io
+    path: "/"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 60
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 10
+  clustering:
+    enabled: true
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 60
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 10   
   volumes:
     localHome:
       persistentVolumeClaim:
