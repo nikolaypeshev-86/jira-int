@@ -11,7 +11,7 @@ spec:
     targetRevision: HEAD                                    # or use a specific branch/commit
     helm:
       valueFiles:
-        - values.yaml                              # use this as your main values file
+        - values-int-argo.yaml                              # use this as your main values file
   destination:
     server: https://kubernetes.default.svc
     namespace: jira-int

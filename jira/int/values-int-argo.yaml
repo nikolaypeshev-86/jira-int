@@ -1,7 +1,5 @@
-
-
-jira:
-  replicaCount: 0
+jira-int:
+  replicaCount: 1
   updateStrategy:
     type: RollingUpdate
   autoscaling:
@@ -12,35 +10,20 @@ jira:
   resources:
     requests:
       cpu: 1
-      memory: 4Gi
+      memory: 2Gi
     limits:
       cpu: 2
-  readinessProbe:
-    httpGet:
-      path: /
-      port: http
-    initialDelaySeconds: 60
-    timeoutSeconds: 5
-    periodSeconds: 10
-    failureThreshold: 10
-  clustering:
-    enabled: true
-  livenessProbe:
-    httpGet:
-      path: /
-      port: http
-    initialDelaySeconds: 60
-    timeoutSeconds: 5
-    periodSeconds: 10
-    failureThreshold: 10   
-    memory: 8Gi
+      memory: 4Gi
   persistence:
     enabled: true
   database:
     type: postgres72
-    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int-cluster
+    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
+    driver: org.postgresql.Driver
     credentials:
       secretName: jira-db-secret
+      usernameSecretKey: username
+      passwordSecretKey: password
   ingress:
       create: true
       nginx: true
@@ -49,7 +32,26 @@ jira:
       path: "/"
       annotations:
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-        nginx.ingress.kubernetes.io/ssl-redirect: "false"    
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  jira:
+    readinessProbe:
+      httpGet:
+        path: /
+        port: http
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      failureThreshold: 10
+    clustering:
+      enabled: true
+    livenessProbe:
+      httpGet:
+        path: /
+        port: http
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+      periodSeconds: 10
+      failureThreshold: 10   
   volumes:
     localHome:
       persistentVolumeClaim:
@@ -59,9 +61,8 @@ jira:
           - ReadWriteOnce 
         resources:
           requests:
-            storage: 10Gi
+            storage: 1Gi
     sharedHome:
       customVolume:
         persistentVolumeClaim:
           claimName: shared-home-int
-          
