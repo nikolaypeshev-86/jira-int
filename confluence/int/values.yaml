@@ -26,7 +26,7 @@
 # scaling up additional pods. As such this value should always be kept as 1,
 # but can be altered once manual configuration is complete.
 #
-replicaCount: 2
+replicaCount: 1
 
 # -- Set a custom start ordinal number for the K8s stateful set.
 # Note that this depends on the StatefulSetStartOrdinal K8s feature gate,

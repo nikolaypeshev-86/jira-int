@@ -4,7 +4,7 @@ metadata:
   name: confluence-int
   namespace: argocd
 spec:
-  project: default
+  project: atlassian-int
   source:
     repoURL: https://github.com/nikolaypeshev-86/jira-int
     targetRevision: HEAD
@@ -12,14 +12,12 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-    chart: confluence
-    helmRepoURL: https://atlassian.github.io/data-center-helm-charts
   destination:
     server: https://kubernetes.default.svc
     namespace: confluence-int
   syncPolicy:
     automated:
       selfHeal: true
-      prune: true
+      prune: false
     syncOptions:
       - CreateNamespace=true

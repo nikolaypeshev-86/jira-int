@@ -6,20 +6,18 @@ metadata:
 spec:
   project: atlassian-int
   source:
-    repoURL: https://github.com/nikolaypeshev-86/jira-int
-    targetRevision: HEAD
-    path: jira/int
+    repoURL: https://github.com/nikolaypeshev-86/jira-int   # points to your repo
+    path: jira/int                                          # points to this directory in your repo
+    targetRevision: HEAD                                    # or use a specific branch/commit
     helm:
       valueFiles:
-        - values-int-helm.yaml
-    chart: jira
-    helmRepoURL: https://atlassian.github.io/data-center-helm-charts  
+        - values-int-helm.yaml                              # use this as your main values file
   destination:
     server: https://kubernetes.default.svc
     namespace: jira-int
   syncPolicy:
     automated:
       selfHeal: true
-      prune: true
+      prune: false
     syncOptions:
       - CreateNamespace=true
