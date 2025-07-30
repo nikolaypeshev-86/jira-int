@@ -65,3 +65,5 @@ volumes:
     customVolume:
       persistentVolumeClaim:
         claimName: shared-home-int
+testPods:
+  annotations: {}
