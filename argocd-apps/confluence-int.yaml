@@ -11,7 +11,7 @@ spec:
     path: confluence/int
     helm:
       valueFiles:
-        - values.yaml
+        - values-int-argo.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: confluence-int

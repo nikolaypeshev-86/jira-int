@@ -1,0 +1,199 @@
+confluence:
+  replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
+
+  database:
+    type: postgresql
+    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/confluencedb-int
+    credentials:
+      secretName: confluence-int-db-secret
+      usernameSecretKey: username
+      passwordSecretKey: password
+
+  volumes:
+    localHome:
+      persistentVolumeClaim:
+        create: true
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 1Gi
+      persistentVolumeClaimRetentionPolicy:
+        whenDeleted: Retain
+        whenScaled: Retain
+      mountPath: "/var/atlassian/application-data/confluence"
+    sharedHome:
+      persistentVolumeClaim:
+        create: false
+        accessModes:
+          - ReadWriteMany
+        storageClassName: longhorn
+      customVolume:
+        persistentVolumeClaim:
+          claimName: "shared-home-confluence-int"
+      mountPath: "/var/atlassian/application-data/shared-home"
+      nfsPermissionFixer:
+        enabled: true
+        mountPath: "/shared-home"
+        imageRepo: alpine
+        imageTag: latest
+    synchronyHome:
+      persistentVolumeClaim:
+        create: true
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 1Gi
+      persistentVolumeClaimRetentionPolicy:
+        whenDeleted: Retain
+        whenScaled: Retain
+      mountPath: "/var/atlassian/application-data/confluence"
+    defaultPermissionsMode: 484
+
+  ingress:
+    create: true
+    className: "nginx"
+    nginx: true
+    maxBodySize: 250m
+    proxyConnectTimeout: 60
+    proxyReadTimeout: 60
+    proxySendTimeout: 60
+    host: confluence-int.catena-x.polygran.io
+    path: /
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+  service:
+    port: 80
+    type: ClusterIP
+
+  securityContextEnabled: true
+  securityContext:
+    fsGroup: 2002
+    fsGroupChangePolicy: "OnRootMismatch"
+  umask: "0022"
+  setPermissions: true
+  ports:
+    http: 8090
+    hazelcast: 5701
+  license: {}
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 6
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 60
+    periodSeconds: 5
+    failureThreshold: 120
+  livenessProbe:
+    enabled: false
+    initialDelaySeconds: 60
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 12
+
+  clustering:
+    enabled: true
+    usePodNameAsClusterNodeName: true
+  resources:
+    jvm:
+      maxHeap: "1g"
+      minHeap: "1g"
+      reservedCodeCache: "256m"
+    container:
+      requests:
+        cpu: "1"
+        memory: "2G"
+  shutdown:
+    terminationGracePeriodSeconds: 25
+    command: "/shutdown-wait.sh"
+  tomcatConfig:
+    generateByHelm: false
+    mgmtPort: "8000"
+    port: "8090"
+    maxThreads: "100"
+    minSpareThreads: "10"
+    connectionTimeout: "20000"
+    enableLookups: "false"
+    protocol: "org.apache.coyote.http11.Http11NioProtocol"
+    redirectPort: "8443"
+    acceptCount: "100"
+    debug: "0"
+    uriEncoding: "UTF-8"
+    # secure is retrieved from ingress.https value
+    secure:
+    # scheme is set depending on ingress.https value (http if false, https if true)
+    scheme:
+    # proxyName is retrieved from ingress.host value
+    proxyName:
+    # proxyPort is set depending on ingress.https value (80 if http, 443 if https)
+    proxyPort:
+    maxHttpHeaderSize: "8192"
+    proxyInternalIps:
+    trustedProxies:
+    stuckThreadDetectionValveThreshold: "60"
+    accessLogMaxDays: "-1"
+    accessLogPattern: "%h %{X-AUSERNAME}o %t &quot;%r&quot; %s %b %D %U %I &quot;%{User-Agent}i&quot;"
+    requestAttributesEnabled: "false"
+  seraphConfig:
+    generateByHelm: false
+    autoLoginCookieAge: "1209600"
+  tunnel:
+    additionalConnector:
+      port:
+      connectionTimeout: "20000"
+      maxThreads: "50"
+      minSpareThreads: "10"
+      enableLookups: "false"
+      acceptCount: "10"
+      URIEncoding: "UTF-8"
+      secure: false
+
+synchrony:
+  enabled: true
+  replicaCount: 1
+  service:
+    port: 80
+    type: ClusterIP
+    nodePort:
+    loadBalancerIP:
+    annotations: {}
+    url:
+  ingress:
+    path:
+    pathType:
+    annotations:
+  securityContextEnabled: true
+  securityContext:
+    fsGroup: 2002
+  setPermissions: true
+  ports:
+    http: 8091
+    hazelcast: 5701
+  readinessProbe:
+    healthcheckPath: "/synchrony/heartbeat"
+    initialDelaySeconds: 5
+    periodSeconds: 1
+    failureThreshold: 10
+  resources:
+    jvm:
+      minHeap: "1g"
+      maxHeap: "2g"
+      stackSize: "2048k"
+    container:
+      requests:
+        cpu: "1"
+        memory: "2.5G"
+  shutdown:
+    terminationGracePeriodSeconds: 25
+
+atlassianAnalyticsAndSupport:
+  analytics:
+    enabled: true
+  helmValues:
+    enabled: true
