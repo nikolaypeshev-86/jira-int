@@ -66,4 +66,4 @@ volumes:
       persistentVolumeClaim:
         claimName: shared-home-int
 testPods:
-  annotations: {}
+  enabled: false
