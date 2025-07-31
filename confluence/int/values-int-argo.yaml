@@ -1,5 +1,5 @@
 confluence:
-  replicaCount: 2
+  replicaCount: 1
   updateStrategy:
     type: RollingUpdate
 
