@@ -154,46 +154,46 @@ confluence:
       URIEncoding: "UTF-8"
       secure: false
 
-synchrony:
-  enabled: true
-  replicaCount: 1
-  service:
-    port: 80
-    type: ClusterIP
-    nodePort:
-    loadBalancerIP:
-    annotations: {}
-    url:
-  ingress:
-    path:
-    pathType:
-    annotations:
-  securityContextEnabled: true
-  securityContext:
-    fsGroup: 2002
-  setPermissions: true
-  ports:
-    http: 8091
-    hazelcast: 5701
-  readinessProbe:
-    healthcheckPath: "/synchrony/heartbeat"
-    initialDelaySeconds: 5
-    periodSeconds: 1
-    failureThreshold: 10
-  resources:
-    jvm:
-      minHeap: "1g"
-      maxHeap: "2g"
-      stackSize: "2048k"
-    container:
-      requests:
-        cpu: "1"
-        memory: "2.5G"
-  shutdown:
-    terminationGracePeriodSeconds: 25
+  synchrony:
+    enabled: true
+    replicaCount: 1
+    service:
+      port: 80
+      type: ClusterIP
+      nodePort:
+      loadBalancerIP:
+      annotations: {}
+      url:
+    ingress:
+      path:
+      pathType:
+      annotations:
+    securityContextEnabled: true
+    securityContext:
+      fsGroup: 2002
+    setPermissions: true
+    ports:
+      http: 8091
+      hazelcast: 5701
+    readinessProbe:
+      healthcheckPath: "/synchrony/heartbeat"
+      initialDelaySeconds: 5
+      periodSeconds: 1
+      failureThreshold: 10
+    resources:
+      jvm:
+        minHeap: "1g"
+        maxHeap: "2g"
+        stackSize: "2048k"
+      container:
+        requests:
+          cpu: "1"
+          memory: "2.5G"
+    shutdown:
+      terminationGracePeriodSeconds: 25
 
-atlassianAnalyticsAndSupport:
-  analytics:
-    enabled: true
-  helmValues:
-    enabled: true
+  atlassianAnalyticsAndSupport:
+    analytics:
+      enabled: true
+    helmValues:
+      enabled: true
