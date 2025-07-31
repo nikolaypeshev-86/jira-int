@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cluster-properties
-  namespace: jira-prod
-data:
-  cluster.properties: |
-    jira.node.id=${HOSTNAME}
-    jira.shared.home=/var/atlassian/application-data/shared-home

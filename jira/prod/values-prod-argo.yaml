@@ -1,5 +1,5 @@
 jira:
-  replicaCount: 2
+  replicaCount: 1
   updateStrategy:
     type: RollingUpdate
   autoscaling:
@@ -18,7 +18,7 @@ jira:
     enabled: true
   database:
     type: postgres72
-    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-int
+    url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-prod
     driver: org.postgresql.Driver
     credentials:
       secretName: jira-db-secret
@@ -28,7 +28,7 @@ jira:
     create: true
     nginx: true
     maxBodySize: 250m
-    host: jira-int.catena-x.polygran.io
+    host: jira-prod.catena-x.polygran.io
     path: "/"
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -65,4 +65,4 @@ jira:
     sharedHome:
       customVolume:
         persistentVolumeClaim:
-          claimName: shared-home-int
+          claimName: shared-home-prod

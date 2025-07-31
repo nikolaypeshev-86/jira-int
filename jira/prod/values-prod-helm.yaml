@@ -1,14 +1,11 @@
 replicaCount: 1
-
 updateStrategy:
   type: RollingUpdate
-
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 90
-
 resources:
   requests:
     cpu: 1
@@ -16,40 +13,17 @@ resources:
   limits:
     cpu: 2
     memory: 8Gi
-
 persistence:
   enabled: true
-
-postgresql:
-  enabled: false
-
 database:
   type: postgres72
   url: jdbc:postgresql://spdua20001d.corp.polygran.de:5432/jiradb-prod
+  driver: org.postgresql.Driver
   credentials:
     secretName: jira-db-secret
-
-jira:
-  volumes:
-    localHome:
-      persistentVolumeClaim:
-        create: true
-        storageClassName: "longhorn"
-        AccessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
-    sharedHome:
-      persistentVolumeClaim:
-        create: true
-        storageClassName: "longhorn"
-        AccessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 10Gi
-  ingress:
+    usernameSecretKey: username
+    passwordSecretKey: password
+ingress:
     create: true
     nginx: true
     maxBodySize: 250m
@@ -58,21 +32,36 @@ jira:
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
-
+jira:
   readinessProbe:
     httpGet:
       path: /
       port: http
-    initialDelaySeconds: 120
+    initialDelaySeconds: 60
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10
-
+  clustering:
+    enabled: true
   livenessProbe:
     httpGet:
       path: /
       port: http
-    initialDelaySeconds: 120
+    initialDelaySeconds: 60
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 10   
+volumes:
+  localHome:
+    persistentVolumeClaim:
+      create: true
+      storageClassName: longhorn
+      accessModes:
+        - ReadWriteOnce 
+      resources:
+        requests:
+          storage: 1Gi
+  sharedHome:
+    customVolume:
+      persistentVolumeClaim:
+        claimName: shared-home-prod
